@@ -55,12 +55,12 @@ export const TinySlider = forwardRef(
       (event: MouseEvent) => {
         if (dragging.current || !onClick) return
 
-        if (!slider.current) return onClick(null, null, event)
+        if (!slider || !slider.current) return onClick(null, null, event)
 
         const info = slider.current.getInfo()
         onClick(info.index, info, event)
       },
-      [onClick]
+      [onClick, slider, dragging]
     )
 
     const postInit = useCallback(() => {
@@ -96,7 +96,9 @@ export const TinySlider = forwardRef(
       onTouchStart,
       onTouchMove,
       onTouchEnd,
-      onInit
+      onInit,
+      slider,
+      dragging
     ])
 
     const build = useCallback(
@@ -110,7 +112,7 @@ export const TinySlider = forwardRef(
         }
         slider.current = tns(settings)
       },
-      [postInit, children]
+      [postInit, children, slider, containerRef]
     )
 
     useEffect(() => {
@@ -118,7 +120,7 @@ export const TinySlider = forwardRef(
       return () => {
         if (slider.current && slider.current.destroy) slider.current.destroy()
       }
-    }, [props, children])
+    }, [props, children, slider])
 
     /**
      * This hack fixes tiny-slider's problem with container ref.
