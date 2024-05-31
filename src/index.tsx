@@ -98,7 +98,8 @@ export const TinySlider = forwardRef(
       onTouchEnd,
       onInit,
       slider,
-      dragging
+      dragging,
+      ref
     ])
 
     const build = useCallback(
