@@ -87,7 +87,7 @@ export const TinySlider = forwardRef(
 
       setTimeout(() => {
         // @ts-ignore
-        ref.current = slider.current
+        if (ref) ref.current = slider.current
       })
     }, [
       onTransitionStart,
